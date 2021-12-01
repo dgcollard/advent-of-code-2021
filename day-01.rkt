@@ -9,22 +9,19 @@
 
 ; Part 1
 
-(define (count-increases lst)
-  (define lst-paired
-    (map list (reverse (cdr (reverse lst)))
-              (cdr lst)))
-  (count (curry apply <) lst-paired))
+(define (count-increases xs)
+  (define pairs
+    (map list (drop xs 1) (drop-right xs 1)))
+  (count (curry apply >) pairs))
 
 (check-equal? (count-increases test-input) 7)
 (count-increases input)
 
 ; Part 2
 
-(define (count-3-window-increases lst)
+(define (count-3-window-increases xs)
   (count-increases
-   (map + (reverse (cdr (cdr (reverse lst))))
-          (cdr (reverse (cdr (reverse lst))))
-          (cdr (cdr lst)))))
+    (map + (drop xs 2 ) (drop (drop-right xs 1) 1) (drop-right xs 2))))
 
 (check-equal? (count-3-window-increases test-input) 5)
 (count-3-window-increases input)
