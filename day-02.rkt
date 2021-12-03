@@ -46,20 +46,15 @@
 ; Part 2
 
 (define (sub-pos-tilt mvs)
+  (define (next-pos mv pos)
+    (match-let ([(cons dir d) mv]
+                [(list x y aim) pos])
+      (match dir
+        ['forward (list (+ x d) (+ y (* d aim)) aim)]
+        ['up      (list x       y               (- aim d))]
+        ['down    (list x       y               (+ aim d))])))
   (define pos
-    (foldl
-     (lambda (mv pos)
-       (let ([dir (car mv)]
-             [d (cdr mv)]
-             [x (first pos)]
-             [y (second pos)]
-             [aim (third pos)])
-         (match dir
-           ['forward (list (+ x d) (+ y (* d aim)) aim)]
-           ['up      (list x y (- aim d))]
-           ['down    (list x y (+ aim d))])))
-     '(0 0 0)
-     mvs))
+    (foldl next-pos '(0 0 0) mvs))
   (take pos 2))
 
 (define (multiply-sub-pos-tilt mvs)
