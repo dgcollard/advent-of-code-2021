@@ -25,9 +25,6 @@
 
 ; Part 1
 
-(define (fill-list n k)
-  (build-list n (lambda (i) k)))
-
 (define (bit-counts nums)
   (foldl
    (lambda (acc num) (map + acc num))
